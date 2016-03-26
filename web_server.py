@@ -4,6 +4,7 @@ import re
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from os import curdir, sep
 import os
+import boto3
 
 PORT_NUMBER = 8080
 form_header_length = 141
@@ -26,6 +27,9 @@ def remove_pd_hed(fileName):
     for var in lines:
         f.write(var)
     f.close()
+def put_file_s3(bucketName, fileName, key):
+    s3 = boto3.resource('s3')
+    s3.Object(bucketName, fileName).put(Body=open(fileName, 'rb'))
 
 class myHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -58,6 +62,7 @@ class myHandler(BaseHTTPRequestHandler):
         remove_pd_hed("temp.txt")
         shutil.copy("temp.txt", name)
         os.remove("temp.txt")
+        put_file_s3('web-module-files', name, name)
 try:
     #Create a web server and define the handler to manage the
     #incoming request
