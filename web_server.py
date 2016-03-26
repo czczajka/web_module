@@ -28,6 +28,7 @@ def remove_pd_hed(fileName):
     f.close()
 
 class myHandler(BaseHTTPRequestHandler):
+<<<<<<< HEAD
     def do_GET(self):
         if self.path=="/index":
             self.path="/index.html"
@@ -58,7 +59,6 @@ class myHandler(BaseHTTPRequestHandler):
         remove_pd_hed("temp.txt")
         shutil.copy("temp.txt", name)
         os.remove("temp.txt")
-
 try:
     #Create a web server and define the handler to manage the
     #incoming request
