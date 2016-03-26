@@ -31,6 +31,13 @@ def put_file_s3(bucketName, fileName, key):
     s3 = boto3.resource('s3')
     s3.Object(bucketName, fileName).put(Body=open(fileName, 'rb'))
 
+def put_message_sqs(queue, message):
+    sqs = boto3.resource("sqs", region_name='us-west-2')
+    queue = sqs.get_queue_by_name(QueueName=queue)
+    response = queue.send_message(MessageBody=message)
+    print(response.get('MessageId'))
+    print(response.get('MD5OfMessageBody'))
+
 class myHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path=="/index":
@@ -63,6 +70,7 @@ class myHandler(BaseHTTPRequestHandler):
         shutil.copy("temp.txt", name)
         os.remove("temp.txt")
         put_file_s3('web-module-files', name, name)
+        put_message_sqs('web-module', name)
 try:
     #Create a web server and define the handler to manage the
     #incoming request
