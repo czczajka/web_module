@@ -28,26 +28,25 @@ def remove_pd_hed(fileName):
     f.close()
 
 class myHandler(BaseHTTPRequestHandler):
-<<<<<<< HEAD
     def do_GET(self):
         if self.path=="/index":
             self.path="/index.html"
-                try:
-                    sendReply = False
-                    if self.path.endswith(".html"):
-                        mimetype='text/html'
-                        sendReply = True
-                    if sendReply == True:
-                        #Open the static file requested and send it
-                        f = open(curdir + sep + self.path)
-                        self.send_response(200)
-                        self.send_header('Content-type', mimetype)
-                        self.end_headers()
-                        self.wfile.write(f.read())
-                        f.close()
-                        return
-                except IOError:
-                    self.send_error(404,'File Not Found: %s' % self.path)
+            try:
+                sendReply = False
+                if self.path.endswith(".html"):
+                    mimetype='text/html'
+                    sendReply = True
+                if sendReply == True:
+                    #Open the static file requested and send it
+                    f = open(curdir + sep + self.path)
+                    self.send_response(200)
+                    self.send_header('Content-type', mimetype)
+                    self.end_headers()
+                    self.wfile.write(f.read())
+                    f.close()
+                    return
+            except IOError:
+                self.send_error(404,'File Not Found: %s' % self.path)
     def do_POST(self):
         # print self.path
         length = int(self.headers['content-length'])
