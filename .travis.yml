@@ -12,3 +12,5 @@ deploy:
   acl: public_read
   on:
     repo: czczajka/web_module
+install: "pip install -r requirements.txt"
+script: tests.py
