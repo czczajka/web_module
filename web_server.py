@@ -7,8 +7,6 @@ import os
 import boto3
 
 PORT_NUMBER = 8080
-form_header_length = 141
-
 
 def get_name(fileName):
     f = open(fileName, "r")
@@ -58,19 +56,22 @@ class myHandler(BaseHTTPRequestHandler):
                     return
             except IOError:
                 self.send_error(404,'File Not Found: %s' % self.path)
+        if self.path=="/notif":
+            print "Receive notification"
     def do_POST(self):
-        # print self.path
-        length = int(self.headers['content-length'])
-        content = self.rfile.read(length)
-        fo = open("temp.txt", "w")
-        fo.write(content)
-        fo.close()
-        name = get_name("temp.txt")
-        remove_pd_hed("temp.txt")
-        shutil.copy("temp.txt", name)
-        os.remove("temp.txt")
-        put_file_s3('web-module-files', name, name)
-        put_message_sqs('web-module', name)
+        if self.path == "/upload":
+            length = int(self.headers['content-length'])
+            content = self.rfile.read(length)
+            fo = open("temp.txt", "w")
+            fo.write(content)
+            fo.close()
+            name = get_name("temp.txt")
+            remove_pd_hed("temp.txt")
+            shutil.copy("temp.txt", name)
+            os.remove("temp.txt")
+            put_file_s3('web-module-files', name, name)
+            put_message_sqs('web-module', name)
+
 try:
     #Create a web server and define the handler to manage the
     #incoming request
