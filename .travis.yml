@@ -1,0 +1,14 @@
+language: python
+python:
+- '2.7'
+before_install:
+deploy:
+  provider: s3
+  access_key_id: AKIAINYJATAQAN5Y4RXQ
+  secret_access_key:
+    secure: GfltUvSMbtuZDO55oBpVsiEjqYOnJ+bB8RaMr751c4owIX36QeIfqEiOuZ7VQCeaymJxMon7asL/Qlb9YFCVs0HglKXy3aD9zzLJ28elrJ/a2/VWRK+6af1XmgUwI98g41T1ldT1vVIYuGz5qqNIVB4pH53UOfSjiAlwxN041QaNnFT08EQZFusgiCMzk4F7EgeLAnNczNrbq/88oP4CwVi+VpNLVW+zpFOwEvVQdbyM6DU4r0zBBzOurPT745XPLLuEnljgrBLakVgs4829IbCWsD0ocX4KDQj5wd2hM9K+MowLowG5gaJLCzb6j5WwgsU7T99MAPitD2uuB6qT0ML/4dr97ASS7v1+2LE7O7XyUxTm8dHgiSOx/5xBOee7OUPZCiAgCsISVPDkTKWGJTkdAqLRrjmmY9r7zEmA2MDG3Qrm//msGy0/PeyLl0ZNNfMcaJmcgwYNMvxi6hq2vAjg38wllaS86Z+ts6RMWdmO6UxYYeZ7ZPQeUkkE6xG5iX1WDYJAi7wOoT++I2M+iprRqTPK3e+INKzpVAdTfGQmsZ0aOvtgTQX7vSNOILmaz/sBYoHZPUqJ1GeCgEpfH+V6Kfp72/7z71kEvJIWp5MfdWsS7ZMsdOzWaLf1VUN9hls/QUKGAQQvVn9Z5iU9fxX/b4f1qBf4LW8JSMmtX6g=
+  bucket: web-module-deploy
+  upload-dir: app
+  acl: public_read
+  on:
+    repo: czczajka/web_module
