@@ -41,23 +41,20 @@ class myHandler(BaseHTTPRequestHandler):
         if self.path=="/index":
             self.path="/index.html"
             try:
-                sendReply = False
-                if self.path.endswith(".html"):
-                    mimetype='text/html'
-                    sendReply = True
-                if sendReply == True:
-                    #Open the static file requested and send it
-                    f = open(curdir + sep + self.path)
-                    self.send_response(200)
-                    self.send_header('Content-type', mimetype)
-                    self.end_headers()
-                    self.wfile.write(f.read())
-                    f.close()
-                    return
+                mimetype='text/html'
+                #Open the static file requested and send it
+                f = open(curdir + sep + self.path)
+                self.send_response(200)
+                self.send_header('Content-type', mimetype)
+                self.end_headers()
+                self.wfile.write(f.read())
+                f.close()
+                return
             except IOError:
                 self.send_error(404,'File Not Found: %s' % self.path)
         if self.path=="/notif":
             print "Receive notification"
+
     def do_POST(self):
         if self.path == "/upload":
             length = int(self.headers['content-length'])
@@ -71,6 +68,20 @@ class myHandler(BaseHTTPRequestHandler):
             os.remove("temp.txt")
             put_file_s3('web-module-files', name, name)
             put_message_sqs('web-module', name)
+
+            try:
+                self.path = 'upload.html'
+                #Open the static file requested and send it
+                f = open(curdir + sep + self.path)
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(f.read())
+                f.close()
+                return
+            except IOError:
+                self.send_error(404,'File Not Found: %s' % self.path)
+
 
 try:
     #Create a web server and define the handler to manage the
